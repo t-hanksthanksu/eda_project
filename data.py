@@ -129,6 +129,44 @@ labels_tomato = ['Leonardo DiCaprio', 'Brad Pitt']
 average_tomato_scores = [average_tomato_leo, average_tomato_brad]
 create_bar_graph(labels_tomato, average_tomato_scores, 'Actor', 'Average Rotten Tomatoes Score', 'Average Rotten Tomatoes Scores for Leonardo DiCaprio and Brad Pitt Movies')
 
+# Scatter plot for IMDb ratings
+def create_scatter_imdb(data, actor_color):
+    imdb_scores = [float(movie["IMDbRating"]) if movie["IMDbRating"] != "N/A" else 0 for movie in data]
+
+    plt.scatter(range(len(data)), imdb_scores, c=actor_color, label='IMDb Ratings')
+    plt.xlabel('Movies')
+    plt.ylabel('IMDb Ratings')
+    plt.title('IMDb Ratings for Movies')
+    plt.legend()
+    plt.show()
+
+# Scatter plot for IMDb ratings and Rotten Tomatoes scores
+def create_scatter_plots(data, actor_color, title):
+    imdb_scores = [float(movie["IMDbRating"]) if movie["IMDbRating"] != "N/A" else 0 for movie in data]
+    tomato_scores = [float(movie["TomatoRating"].rstrip('%')) if movie["TomatoRating"] != "N/A" else 0 for movie in data]
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
+
+    ax1.scatter(range(len(data)), imdb_scores, c=actor_color, label='IMDb Ratings')
+    ax1.set_xlabel('Movies')
+    ax1.set_ylabel('IMDb Ratings')
+    ax1.set_title('IMDb Ratings for Movies')
+    ax1.legend()
+
+    ax2.scatter(range(len(data)), tomato_scores, c=actor_color, label='Rotten Tomatoes Scores')
+    ax2.set_xlabel('Movies')
+    ax2.set_ylabel('Rotten Tomatoes Scores')
+    ax2.set_title('Rotten Tomatoes Scores for Movies')
+    ax2.legend()
+
+    plt.suptitle(title)
+    plt.tight_layout()
+    plt.show()
+
+# Scatter plots for IMDb ratings and Rotten Tomatoes scores (Leo in blue, Brad in orange)
+create_scatter_plots(leo_movies_info, 'blue', 'Leonardo DiCaprio Movies')
+create_scatter_plots(brad_movies_info, 'orange', 'Brad Pitt Movies')
+
 # #plot
 # labels = ['Leonardo DiCaprio', 'Brad Pitt']
 # average_imdb_scores = [average_imdb_leo, average_imdb_brad]
