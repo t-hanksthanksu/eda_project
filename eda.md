@@ -1,5 +1,5 @@
 ---
-title: "Rotten Tomatoes and IMDB Ratings Analysis
+EDA Title: "Rotten Tomatoes and IMDB Ratings Analysis
 
 (Brad Pitt vs. Leonardo DiCaprio)"
 
@@ -15,14 +15,19 @@ For this analysis I utilized IMDb and Rotten Tomatoes data available by scraping
 
 ### Results:
 
-The bar graph below displays the average IMDb ratings for every movie the two actor's have starred in. IMDb ratings are on a 1-10 scale. The analysis shows that, on average, that the film's Leonardo DiCaprio starred in had the slightly better average (7.27) compared to those where Brad Pitt was featured with an average rating of (6.86). ![](RackMultipart20231220-1-32ngtg_html_d0389d5f467ecb16.png)
+The bar graph below displays the average IMDb ratings for every movie the two actor's have starred in. IMDb ratings are on a 1-10 scale. The analysis shows that, on average, that the film's Leonardo DiCaprio starred in had the slightly better average (7.27) compared to those where Brad Pitt was featured with an average rating of (6.86). 
 
-Our second bar graph below displays the average Rotten Tomatoes ratings for every movie the two actor's have starred in. Rotten Tomatoes scores are on a 0-100 scale. The analysis shows that, on average, the films Leonardo DiCaprio played a role in had a slightly worse average (56.78) compared to those of Brad Pitt (60.97). ![](RackMultipart20231220-1-32ngtg_html_168e5351b3bc760e.png)
+![Image 1](IMDB_Ratings_Graph.png)
+
+Our second bar graph below displays the average Rotten Tomatoes ratings for every movie the two actor's have starred in. Rotten Tomatoes scores are on a 0-100 scale. The analysis shows that, on average, the films Leonardo DiCaprio played a role in had a slightly worse average (56.78) compared to those of Brad Pitt (60.97).
+
+![Image 2](Avg%20Rotten%20Tomatoes%20Scores.png)
 
 Lastly, the scatter plots below show the IMDb ratings and Rotten Tomatoes scores for each film the actors have featured in. As displayed below, we can see that Brad Pitt has starred in more films (64) than Leonardo DiCaprio (33).
 
-![Image 1](Avg Rotten Tomatoes Scores.png)
-![Image 2](IMDB_Ratings_Graph.png)
+![Image 3](Scatter_leo.png)
+![Image 4](Scatter_Brad.png)
+
 
 
 ### Limitations:
@@ -37,4 +42,4 @@ Despite the aforementioned limitations, our analysis provides a starting point f
 
 In the realm of film appreciation, the debate between Brad Pitt and Leonardo DiCaprio's performances will likely persist, as personal preferences and opinions remain integral to the cinematic experience.
 
-### See data.py for Python Code
+### *See data.py for Python Code*
