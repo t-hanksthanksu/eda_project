@@ -1,7 +1,11 @@
+import streamlit as st
 import requests
 from bs4 import BeautifulSoup
 import csv
 import matplotlib.pyplot as plt
+
+
+
 
 
 def get_movie_data(api_key, movie_title):
@@ -40,6 +44,9 @@ def save_to_csv(data, filename):
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(data)
+
+st.title("Leonardo DiCaprio vs. Brad Pitt Movie Ratings Comparison")
+st.sidebar.title("User Input")
 
 with open("api_key_omdb.txt", "r") as key_file:
     api_key = key_file.read().strip()
@@ -122,37 +129,36 @@ def create_bar_graph(labels, scores, xlabel, ylabel, title):
 # IMDb Scores
 labels_imdb = ['Leonardo DiCaprio', 'Brad Pitt']
 average_imdb_scores = [average_imdb_leo, average_imdb_brad]
-create_bar_graph(labels_imdb, average_imdb_scores, 'Actor', 'Average IMDb Score', 'Average IMDb Scores for Leonardo DiCaprio and Brad Pitt Movies')
 
 # Rotten Tomatoes Scores
 labels_tomato = ['Leonardo DiCaprio', 'Brad Pitt']
 average_tomato_scores = [average_tomato_leo, average_tomato_brad]
+
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
+# Plotting bar graphs
+st.subheader("Average IMDb Scores")
+create_bar_graph(labels_imdb, average_imdb_scores, 'Actor', 'Average IMDb Score', 'Average IMDb Scores for Leonardo DiCaprio and Brad Pitt Movies')
+st.pyplot()
+
+st.subheader("Average Rotten Tomatoes Scores")
 create_bar_graph(labels_tomato, average_tomato_scores, 'Actor', 'Average Rotten Tomatoes Score', 'Average Rotten Tomatoes Scores for Leonardo DiCaprio and Brad Pitt Movies')
+st.pyplot()
 
-# Scatter plot for IMDb ratings
-def create_scatter_imdb(data, actor_color):
-    imdb_scores = [float(movie["IMDbRating"]) if movie["IMDbRating"] != "N/A" else 0 for movie in data]
-
-    plt.scatter(range(len(data)), imdb_scores, c=actor_color, label='IMDb Ratings')
-    plt.xlabel('Movies')
-    plt.ylabel('IMDb Ratings')
-    plt.title('IMDb Ratings for Movies')
-    plt.legend()
-    plt.show()
-
-# Scatter plot for IMDb ratings and Rotten Tomatoes scores
 def create_scatter_plots(data, actor_color, title):
     imdb_scores = [float(movie["IMDbRating"]) if movie["IMDbRating"] != "N/A" else 0 for movie in data]
     tomato_scores = [float(movie["TomatoRating"].rstrip('%')) if movie["TomatoRating"] != "N/A" else 0 for movie in data]
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
 
+    # Scatter plot for IMDb ratings
     ax1.scatter(range(len(data)), imdb_scores, c=actor_color, label='IMDb Ratings')
     ax1.set_xlabel('Movies')
     ax1.set_ylabel('IMDb Ratings')
     ax1.set_title('IMDb Ratings for Movies')
     ax1.legend()
 
+    # Scatter plot for Rotten Tomatoes scores
     ax2.scatter(range(len(data)), tomato_scores, c=actor_color, label='Rotten Tomatoes Scores')
     ax2.set_xlabel('Movies')
     ax2.set_ylabel('Rotten Tomatoes Scores')
@@ -161,43 +167,15 @@ def create_scatter_plots(data, actor_color, title):
 
     plt.suptitle(title)
     plt.tight_layout()
-    plt.show()
 
-# Scatter plots for IMDb ratings and Rotten Tomatoes scores (Leo in blue, Brad in orange)
-create_scatter_plots(leo_movies_info, 'blue', 'Leonardo DiCaprio Movies')
-create_scatter_plots(brad_movies_info, 'orange', 'Brad Pitt Movies')
-
-# #plot
-# labels = ['Leonardo DiCaprio', 'Brad Pitt']
-# average_imdb_scores = [average_imdb_leo, average_imdb_brad]
-# average_tomato_scores = [average_tomato_leo, average_tomato_brad]
-
-# x = range(len(labels))
-
-# plt.bar(x, average_imdb_scores, width=0.4, label='IMDb', align='center', color='blue')
-# plt.bar(x, average_tomato_scores, width=0.4, label='Rotten Tomatoes', align='edge', color='green')
-
-# plt.xlabel('Actor')
-# plt.ylabel('Average Score')
-# plt.title('Average IMDb and Rotten Tomatoes Scores for Leonardo DiCaprio and Brad Pitt Movies')
-# plt.xticks(x, labels)
-# plt.legend()
-# plt.show()
+    return fig  
 
 
+fig_leo = create_scatter_plots(leo_movies_info, 'blue', 'Leonardo DiCaprio Movies')
+fig_brad = create_scatter_plots(brad_movies_info, 'orange', 'Brad Pitt Movies')
 
-# def create_bar_graph(data):
-#     titles = [movie["Title"] for movie in data]
-#     scores = [float(movie["TomatoRating"].rstrip('%')) if movie["TomatoRating"] != "N/A" else 0 for movie in data]
+st.set_option('deprecation.showPyplotGlobalUse', False)
+st.subheader("Scatter Plots for IMDb Ratings and Rotten Tomatoes Scores")
+st.pyplot(fig_leo) 
+st.pyplot(fig_brad)  
 
-#     plt.figure(figsize=(12, 6))
-#     plt.bar(titles, scores, color='green')
-#     plt.xlabel('Movies')
-#     plt.ylabel('Average Rotten Tomatoes Score')
-#     plt.title('Average Rotten Tomatoes Scores for Movies')
-#     plt.xticks(rotation=45, ha='right')
-#     plt.tight_layout()
-
-#     plt.show()
-
-# create_bar_graph(all_movies_info)
