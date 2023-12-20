@@ -94,18 +94,72 @@ save_to_csv(all_movies_info, "movies_ratings_comparison.csv")
 
 print("Data successfully saved to movies_ratings_comparison.csv")
 
-def create_bar_graph(data):
-    titles = [movie["Title"] for movie in data]
-    scores = [float(movie["TomatoRating"].rstrip('%')) if movie["TomatoRating"] != "N/A" else 0 for movie in data]
+#finding avergaes
+def calculate_average_scores(data):
+    imdb_scores = [float(movie["IMDbRating"]) if movie["IMDbRating"] != "N/A" else 0 for movie in data]
+    tomato_scores = [float(movie["TomatoRating"].rstrip('%')) if movie["TomatoRating"] != "N/A" else 0 for movie in data]
 
-    plt.figure(figsize=(12, 6))
-    plt.bar(titles, scores, color='green')
-    plt.xlabel('Movies')
-    plt.ylabel('Average Rotten Tomatoes Score')
-    plt.title('Average Rotten Tomatoes Scores for Movies')
-    plt.xticks(rotation=45, ha='right')
-    plt.tight_layout()
+    average_imdb = sum(imdb_scores) / len(imdb_scores) if imdb_scores else 0
+    average_tomato = sum(tomato_scores) / len(tomato_scores) if tomato_scores else 0
 
+    return average_imdb, average_tomato
+
+#calculate averages
+average_imdb_leo, average_tomato_leo = calculate_average_scores(leo_movies_info)
+average_imdb_brad, average_tomato_brad = calculate_average_scores(brad_movies_info)
+
+# Plotting bar graphs
+def create_bar_graph(labels, scores, xlabel, ylabel, title):
+    x = range(len(labels))
+
+    plt.bar(x, scores, color='blue')
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
+    plt.xticks(x, labels)
     plt.show()
 
-create_bar_graph(all_movies_info)
+# IMDb Scores
+labels_imdb = ['Leonardo DiCaprio', 'Brad Pitt']
+average_imdb_scores = [average_imdb_leo, average_imdb_brad]
+create_bar_graph(labels_imdb, average_imdb_scores, 'Actor', 'Average IMDb Score', 'Average IMDb Scores for Leonardo DiCaprio and Brad Pitt Movies')
+
+# Rotten Tomatoes Scores
+labels_tomato = ['Leonardo DiCaprio', 'Brad Pitt']
+average_tomato_scores = [average_tomato_leo, average_tomato_brad]
+create_bar_graph(labels_tomato, average_tomato_scores, 'Actor', 'Average Rotten Tomatoes Score', 'Average Rotten Tomatoes Scores for Leonardo DiCaprio and Brad Pitt Movies')
+
+# #plot
+# labels = ['Leonardo DiCaprio', 'Brad Pitt']
+# average_imdb_scores = [average_imdb_leo, average_imdb_brad]
+# average_tomato_scores = [average_tomato_leo, average_tomato_brad]
+
+# x = range(len(labels))
+
+# plt.bar(x, average_imdb_scores, width=0.4, label='IMDb', align='center', color='blue')
+# plt.bar(x, average_tomato_scores, width=0.4, label='Rotten Tomatoes', align='edge', color='green')
+
+# plt.xlabel('Actor')
+# plt.ylabel('Average Score')
+# plt.title('Average IMDb and Rotten Tomatoes Scores for Leonardo DiCaprio and Brad Pitt Movies')
+# plt.xticks(x, labels)
+# plt.legend()
+# plt.show()
+
+
+
+# def create_bar_graph(data):
+#     titles = [movie["Title"] for movie in data]
+#     scores = [float(movie["TomatoRating"].rstrip('%')) if movie["TomatoRating"] != "N/A" else 0 for movie in data]
+
+#     plt.figure(figsize=(12, 6))
+#     plt.bar(titles, scores, color='green')
+#     plt.xlabel('Movies')
+#     plt.ylabel('Average Rotten Tomatoes Score')
+#     plt.title('Average Rotten Tomatoes Scores for Movies')
+#     plt.xticks(rotation=45, ha='right')
+#     plt.tight_layout()
+
+#     plt.show()
+
+# create_bar_graph(all_movies_info)
